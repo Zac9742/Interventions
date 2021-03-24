@@ -17,4 +17,5 @@ export class ProblemeComponent implements OnInit {
     });
   }
 
+  save(): void{}
 }
