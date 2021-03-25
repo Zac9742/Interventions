@@ -67,6 +67,7 @@ describe('ProblemeComponent', () => {
     let validator = ZonesValidator.longueurMinimum(3);
     let control = { value: '  x'};
     // Faire l'appel du validateur
+    problemeForm.get('prenom')
     let result = validator(control as AbstractControl);
     //Comparer le résultat OBTENU avec le résultat PRÉVU
     expect(result['nbreCaracteresInsuffisants']).toBe(true);
