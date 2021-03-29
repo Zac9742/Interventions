@@ -17,12 +17,12 @@ export class ZonesValidator {
         // Sous ANGULAR dans les validateurs pour indiquer un succès retourner NULL autrement retourner une clé valeur JSON
         return (controle: AbstractControl): { [key: string]: boolean} | null => {
             if (controle.value == null || controle.value.trim().isEmpty){
-                return { 'nbreCaracteresDepasse': true };
+                return { 'nbreCaracteresInsuffisants': true };
             }
             if (controle.value.trim().length <= longueur) {
                 return null;
             }
-            return { 'nbreCaracteresInsuffisants': true };
+            return { 'nbreCaracteresDepasse': true };
         };
     }
 }
