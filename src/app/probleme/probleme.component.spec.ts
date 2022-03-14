@@ -103,4 +103,40 @@ describe('ProblemeComponent', () => {
     expect(zone.status).toEqual('DISABLED');
   });
 
+  it('#19 | Zone TELEPHONE est désactivée quand notifier par courriel', () => {
+    component.appliquerNotifications('Courriel');
+
+    let zone = component.problemeForm.get('telephone');
+    expect(zone.status).toEqual('DISABLED');
+  });
+
+  it('#20 | Zone ADRESSE COURRIEL est activée quand notifier par courriel', () => {
+    component.appliquerNotifications('Courriel');
+
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    expect(zone.status).toEqual('VALID');
+  });
+
+  it('#21 | Zone CONFIRMER COURRIEL est activée quand notifier par courriel', () => {
+    component.appliquerNotifications('Courriel');
+
+    let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    expect(zone.status).toEqual('VALID');
+  });
+
+  it('#22 | Zone ADRESSE COURRIEL est invalide sans valeur quand notifier par courriel', () => {
+    component.appliquerNotifications('Courriel');
+    let errors = {};
+
+    let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+
+    zone.setValue('')
+    expect(zone.valid).toBeFalsy;
+  });
+
+
+
+
+
+
 });

@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ZonesValidator } from '../shared/longueur-minimum/longueur-minimum.component';
 import { ITypeProbleme } from './typeprobleme';
 import { TypeproblemeService } from './typeprobleme.service';
+
+function courrielsvalides(c: AbstractControl): {[key: string]: boolean} | null {
+  let courriel = c.get('courriel');
+
+if(){
+  return null;
+}
+
+}
 
 @Component({
   selector: 'Inter-probleme',
@@ -57,16 +66,21 @@ export class ProblemeComponent implements OnInit {
       telephoneControl.enable();
     }
     else if(typeNotification === 'Courriel'){
+      courrielControl.setValidators([Validators.required]);
       courrielControl.enable();
+      courrielConfirmationControl.setValidators([Validators.required]);
       courrielConfirmationControl.enable();
+      courrielGroupControl.setValidators([Validators.compose([courrielValide])]);
     }
 
     
     telephoneControl.updateValueAndValidity();
     courrielControl.updateValueAndValidity();
     courrielConfirmationControl.updateValueAndValidity();
-
+    courrielGroupControl.updateValueAndValidity();
   }
+
+  
 
   save(): void{}
 }
