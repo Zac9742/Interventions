@@ -1,17 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { emailMatcherValidator } from '../shared/longueur-minimum/email-matcher.component';
 import { ZonesValidator } from '../shared/longueur-minimum/longueur-minimum.component';
 import { ITypeProbleme } from './typeprobleme';
 import { TypeproblemeService } from './typeprobleme.service';
-
-function courrielsvalides(c: AbstractControl): {[key: string]: boolean} | null {
-  let courriel = c.get('courriel');
-
-if(){
-  return null;
-}
-
-}
 
 @Component({
   selector: 'Inter-probleme',
@@ -62,15 +54,23 @@ export class ProblemeComponent implements OnInit {
     courrielConfirmationControl.disable();
 
 
-    if(typeNotification === 'Telephone') {
+    if(typeNotification === 'Texte') {
+      telephoneControl.setValidators([Validators.required, Validators.pattern('[0-9]+'), Validators.minLength(10), Validators.maxLength(10)])
       telephoneControl.enable();
     }
     else if(typeNotification === 'Courriel'){
-      courrielControl.setValidators([Validators.required]);
+      courrielControl.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);
       courrielControl.enable();
       courrielConfirmationControl.setValidators([Validators.required]);
       courrielConfirmationControl.enable();
-      courrielGroupControl.setValidators([Validators.compose([courrielValide])]);
+      courrielGroupControl.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])]);
+    }
+    else{
+      if(typeNotification === 'Inconnu'){
+        courrielControl.disable();
+        courrielConfirmationControl.disable();
+        telephoneControl.disable();
+      }
     }
 
     
