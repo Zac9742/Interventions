@@ -21,18 +21,24 @@ export class ProblemeComponent implements OnInit {
     this.problemeForm = this.fb.group({
       prenom: ['',[Validators.required, ZonesValidator.longueurMinimum(3)]],
       nom: ['', [Validators.required, ZonesValidator.longueurMaximum(50)]],
-      typeProbleme: [''],
-      noTypeProbleme: ['', Validators.required],
+      typeProbleme: ['',  Validators.required],
+      notification: [''],
       courrielGroup: this.fb.group({
         courriel: [{value: '', disabled: true}],
         courrielConfirmation: [{value: '', disabled: true}],
       }),
       telephone: [{value: '', disabled: true}],
+      descriptionProbleme: ['',[Validators.required, Validators.minLength(5)]],
+      noUnite: '',
+      dateProbleme: {value: Date(), disabled: true}
     });
 
     this.typesProbleme.obtenirCategories()
     .subscribe(cat => this.typesDeProblemes = cat,
                error => this.errorMessage = <any>error);  
+
+    this.problemeForm.get('notification').valueChanges
+    .subscribe(value => this.appliquerNotifications(value));
   }
 
   appliquerNotifications(typeNotification: String): void {
@@ -66,7 +72,7 @@ export class ProblemeComponent implements OnInit {
       courrielGroupControl.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])]);
     }
     else{
-      if(typeNotification === 'Inconnu'){
+      if(typeNotification === 'Aucun'){
         courrielControl.disable();
         courrielConfirmationControl.disable();
         telephoneControl.disable();
